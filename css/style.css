@@ -23,6 +23,7 @@ form {
 
 .grupo-campo {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   background-color: #4b4b53;
   width: 100%;
@@ -30,14 +31,14 @@ form {
   padding: 10px;
   margin-bottom: 20px;
 }
-input {
+input, select {
   width: 70%;
   background-color: #4b4b53;
   border: 0 none;
   border-radius: 3px;
   padding: 8px;
 }
-input:focus {
+input:focus, select:focus {
   border: 0 none;
   box-shadow: 0 0 0 0;
   outline: 0;
@@ -47,11 +48,16 @@ button {
   border-radius: 10px;
   background-color: #2695db;
   border: solid 3px transparent;
-  border-radius: 10px;
+  cursor: pointer;
   transition: 1s;
 }
 button:hover {
   background-color: #646470;
   border: solid 3px #2695db;
   border-radius: 10px;
+}
+
+.campo-obrigatorio{
+  display: none;
+  color: #8b0000;
 }
