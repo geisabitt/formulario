@@ -12,6 +12,22 @@ const inputCep = document.getElementById("cep");
 const mensagemErro = document.querySelectorAll(".campo-obrigatorio");
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
+
+formulario.addEventListener('submit', (e) => {
+    e.preventDefault();
+    validarNome();
+    validarEmail();
+    validarTelefone();
+    validarRua();
+    validarNumeroResidencia();
+    validarComplemento();
+    validarCidade();
+    validarEstado();
+    validarCep();
+
+    console.log(formulario.value);
+})
+
 function setError(index){
  campos[index].style.border = 'solid 3px #8b0000';
  mensagemErro[index].style.display = 'block';
@@ -36,13 +52,33 @@ function validarEmail(){
     removerError(1);
 }
 }
-function validarTelefone(){
-    if (inputTelefone.value.length < 11){
+
+function formatarTelefone(input) {
+    const inputValue = input.value.replace(/\D/g, '');
+
+    if (inputValue.length <= 10) {
+        input.value = inputValue.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    } else {
+        input.value = inputValue.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+}
+
+inputTelefone.addEventListener("input", function() {
+    formatarTelefone(this);
+    validarTelefone();
+});
+
+function validarTelefone() {
+    const inputTelefone = document.getElementById("telefone");
+    const inputValue = inputTelefone.value.replace(/\D/g, '');
+
+    if (inputValue.length < 11) {
         setError(2);
-    }else{
-    removerError(2);
+    } else {
+        removerError(2);
+    }
 }
-}
+
 function validarRua(){
     if (inputRua.value.length < 3){
         setError(3);

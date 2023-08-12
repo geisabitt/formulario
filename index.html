@@ -23,7 +23,7 @@
         </div>
         <div class="grupo-campo requerido">
           <label >Telefone:</label>
-          <input id="telefone" type="number" placeholder="(21)99999-9999" oninput="validarTelefone()"/>
+          <input id="telefone" type="text" placeholder="(21)99999-9999" oninput="formatarTelefone(this)"/>
           <span class="campo-obrigatorio">Digite um telefone válido</span>
         </div>
         <div id="endereco">
@@ -89,7 +89,7 @@
           </div>
           <div class="grupo-campo requerido">
             <label >CEP:</label>
-            <input id="cep" type="number" placeholder="99999-999" oninput="validarCep()"/>
+            <input id="cep" type="text" placeholder="99999-999" oninput="validarCep()"/>
             <span class="campo-obrigatorio">Digite um cep válido</span>
           </div>
         </div>
