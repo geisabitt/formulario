@@ -1,5 +1,4 @@
 const formulario = document.getElementById("formulario");
-const campos = document.querySelectorAll(".requerido");
 const inputNome = document.getElementById("nome");
 const inputEmail = document.getElementById("email");
 const inputTelefone = document.getElementById("telefone");
@@ -15,149 +14,175 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 formulario.addEventListener('submit', (e) => {
     e.preventDefault();
-    validarNome();
-    validarEmail();
-    validarTelefone();
-    validarRua();
-    validarNumeroResidencia();
-    validarComplemento();
-    validarCidade();
-    validarEstado();
-    validarCep();
+    validarFormulario();
+});
 
-    const Data = {
-        nome: inputNome.value,
-        email: inputEmail.value,
-        telefone: inputTelefone.value,
-        rua: inputRua.value,
-        numeroResidencia: inputNumeroResidencia.value,
-        complemento: inputComplemento.value,
-        cidade: inputCidade.value,
-        estado: inputEstado.value,
-        cep: inputCep.value
-    };
+function setClassError(input){
+    const campoGrupo = input.parentElement;
+    const mensagemErro = campoGrupo.querySelector('.campo-obrigatorio');
 
-    console.log(JSON.stringify(Data, null, 2));
-
-})
-
-function setError(index){
- campos[index].style.border = 'solid 3px #8b0000';
- mensagemErro[index].style.display = 'block';
+    campoGrupo.classList.add('error'); 
+    mensagemErro.classList.add('span-error');
+    input.classList.remove("validado")
+    return false;
 }
 
-function removerError(index){
-    campos[index].style.border = '';
-    mensagemErro[index].style.display = 'none';
+function removeClassError(input){
+    const campoGrupo = input.parentElement;
+    const mensagemErro = campoGrupo.querySelector('.campo-obrigatorio');
+
+    campoGrupo.classList.remove('error');
+    mensagemErro.classList.remove('span-error');
+    input.classList.add("validado")
+    return true;
 }
 
-function validarNome(){
+function validarNome(input){
     if (inputNome.value.length < 3){
-        setError(0);
+        setClassError(input)
+       
     }else{
-    removerError(0);
+        removeClassError(input)
+   
 }
 }
-function validarEmail(){
+function validarEmail(input){
     if (!emailRegex.test(inputEmail.value)){
-        setError(1);
+        setClassError(input)
     }else{
-    removerError(1);
+    removeClassError(input)
 }
 }
 
-function formatarTelefone(input) {
+function validarTelefone(input) {
     let inputValue = input.value.replace(/\D/g, '');
 
     inputValue = inputValue.slice(0, 11);
 
-    if (inputValue.length <= 10) {
+    if (inputValue.length <= 10 && inputValue.length < 11) {
         input.value = inputValue.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+        setClassError(input)
     } else {
         input.value = inputValue.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        removeClassError(input)
     }
 }
 
-inputTelefone.addEventListener("input", function() {
-    formatarTelefone(this);
-    validarTelefone();
-});
-
-function validarTelefone() {
-   const inputValue = inputTelefone.value.replace(/\D/g, '');
-
-    if (inputValue.length < 11) {
-        setError(2);
-    } else {
-        removerError(2);
-    }
-}
-
-function validarRua(){
+function validarRua(input){
     if (inputRua.value.length < 3){
-        setError(3);
+        setClassError(input)
     }else{
-    removerError(3);
+    removeClassError(input)
 }
 }
-function validarNumeroResidencia(){
+function validarNumeroResidencia(input){
     if (inputNumeroResidencia.value === ''){
-        setError(4);
+        setClassError(input)
     }else{
-    removerError(4);
+   removeClassError(input)
 }
 }
-function validarComplemento(){
+function validarComplemento(input){
     if (inputComplemento.value.length < 3){
-        setError(5);
+        setClassError(input)
     }else{
-    removerError(5);
+    removeClassError(input)
 }
 }
-function validarCidade(){
+function validarCidade(input){
     if (inputCidade.value.length < 3){
-        setError(6);
+        setClassError(input)
     }else{
-    removerError(6);
+    removeClassError(input)
 }
 }
-function validarEstado(){
+function validarEstado(input){
     if (inputEstado.value === ''){
-        setError(7);
+        setClassError(input)
     }else{
-    removerError(7);
+    removeClassError(input)
 }
 }
-function formatarCep(input) {
+function validarCep(input) {
     let inputValue = input.value.replace(/\D/g, '');
     inputValue = inputValue.slice(0, 8);
 
-    input.value = inputValue.replace(/(\d{5})(\d{0,3})/, '$1-$2');
-}
-
-inputCep.addEventListener("input", function() {
-    formatarCep(this);
-    validarCep();
-});
-
-function validarCep() {
-
-    const inputValue = inputCep.value.replace(/\D/g, '');
-
-    if (inputValue.length < 8) {
-        setError(8);
+    if (inputValue.length <= 6 && inputValue.length !== 8) {
+        input.value = input.value.replace(/\D/g, '');
+        setClassError(input)
     } else {
-        removerError(8);
+        removeClassError(input)
+        input.value = inputValue.replace(/^(\d{5})(\d{0,3})/, '$1-$2');
     }
 }
+
 
 const btnLimpar = document.getElementById("btnLimpar");
 btnLimpar.addEventListener("click", limparFormulario);
 
 function limparFormulario() {
     formulario.reset();
-    //document.getElementById('btnCadastrar').disabled = true;
+    btnCadastrar.disabled = true;
 }
 
+function validarFormulario() {
+    if( validarNome(inputNome) 
+    && validarEmail(inputEmail)
+    && validarTelefone(inputTelefone)
+    && validarRua(inputRua)
+    && validarNumeroResidencia(inputNumeroResidencia)
+    && validarComplemento(inputComplemento)
+    && validarCidade(inputCidade)
+    && validarEstado(inputEstado)
+    && validarCep(inputCep))
+    {
+        const Data = {
+            nome: inputNome.value,
+            email: inputEmail.value,
+            telefone: inputTelefone.value,
+            rua: inputRua.value,
+            numeroResidencia: inputNumeroResidencia.value,
+            complemento: inputComplemento.value,
+            cidade: inputCidade.value,
+            estado: inputEstado.value,
+            cep: inputCep.value
+        };
+        console.log(JSON.stringify(Data, null, 2));
+        return true;
+        
+    } else {
+        console.log("Confira se os campos estão digitados corretamente.");
+        return false;
+        
+    }
 
+}
 
+function estadoBotao() {
+    inputNome.value;
+    inputEmail.value;
+    inputTelefone.value;
+    inputRua.value;
+    inputNumeroResidencia.value;
+    inputComplemento.value;
+    inputCidade.value;
+    inputEstado.value;
+    inputCep.value;
+    if( inputNome 
+    && inputEmail
+    && inputTelefone
+    && inputRua
+    && inputNumeroResidencia
+    && inputComplemento
+    && inputCidade
+    && inputEstado
+    && inputCep)
+    {
+        document.getElementById('btnCadastrar').disabled = false;
+        
+    } else {
+        document.getElementById('btnCadastrar').disabled = true;
+        
+    }
+
+}

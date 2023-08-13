@@ -61,3 +61,11 @@ button:disabled{
   border: solid 3px #646470;
 
 }
+
+.error{
+  border: solid 3px #8b0000;
+}
+.span-error{
+  display: block;
+  color: #8b0000;
+}

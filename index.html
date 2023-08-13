@@ -11,50 +11,50 @@
     <section>
       <h2 class="titulo">Formulário</h2>
       <form id="formulario">
-        <div class="grupo-campo requerido">
+        <div class="grupo-campo">
           <label >Nome:</label>
-          <input id="nome" type="text" placeholder="Seu nome aqui..." oninput="validarNome()"/>
+          <input id="nome" type="text" placeholder="Seu nome aqui..." oninput="validarNome(this)" onchange="estadoBotao()"/>
           <span class="campo-obrigatorio">O nome deve ter no mínimo 3 caracteres.</span>
         </div>
-        <div class="grupo-campo requerido">
+        <div class="grupo-campo">
           <label >E-mail:</label>
-          <input id="email" type="text" placeholder="exemplo@email.com" oninput="validarEmail()" />
+          <input id="email" type="text" placeholder="exemplo@email.com" oninput="validarEmail(this)" onchange="estadoBotao()" />
           <span class="campo-obrigatorio">Digite um email válido.</span>
         </div>
-        <div class="grupo-campo requerido">
+        <div class="grupo-campo">
           <label >Telefone:</label>
-          <input id="telefone" type="text" placeholder="(21)99999-9999" oninput="formatarTelefone(this)"/>
+          <input id="telefone" type="text" placeholder="(21)99999-9999" oninput="validarTelefone(this)" onchange="estadoBotao()"/>
           <span class="campo-obrigatorio">Digite um telefone válido</span>
         </div>
         <div id="endereco">
           <h3>Endereço</h3>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >Rua:</label>
-            <input id="rua" type="text" placeholder="Nome da rua..." oninput="validarRua()"/>
+            <input id="rua" type="text" placeholder="Nome da rua..." oninput="validarRua(this)" onchange="estadoBotao()"/>
             <span class="campo-obrigatorio">Digite o nome da rua</span>
           </div>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >Numero:</label>
-            <input id="numeroResidencia" type="number" placeholder="Numero da residencia..." oninput="validarNumeroResidencia()"/>
+            <input id="numeroResidencia" type="number" placeholder="Numero da residencia..." oninput="validarNumeroResidencia(this)" onchange="estadoBotao()"/>
             <span class="campo-obrigatorio">Digite o numero d residência</span>
           </div>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >Complemento:</label>
             <input id="complemento"
               type="text"
               placeholder="Lote, quadra ou ponto de referencia..."
-              oninput="validarComplemento()"
+              oninput="validarComplemento(this)" onchange="estadoBotao()"
             />
             <span class="campo-obrigatorio">Digite um complemento ou ponto de referência</span>
           </div>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >Cidade:</label>
-            <input id="cidade" type="text" placeholder="Digite a cidade..." oninput="validarCidade()"/>
+            <input id="cidade" type="text" placeholder="Digite a cidade..." oninput="validarCidade(this)" onchange="estadoBotao()"/>
             <span class="campo-obrigatorio">Digite seu bairro / cidade</span>
           </div>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >Estado:</label>
-            <select id="estado" name="estados" oninput="validarEstado()">
+            <select id="estado" name="estados" oninput="validarEstado(this)" onchange="estadoBotao()">
               <option value="">Selecione um estado</option>
               <option value="AC">Acre</option>
               <option value="AL">Alagoas</option>
@@ -87,14 +87,14 @@
           <span class="campo-obrigatorio">Escolha um estado</span>
 
           </div>
-          <div class="grupo-campo requerido">
+          <div class="grupo-campo">
             <label >CEP:</label>
-            <input id="cep" type="text" placeholder="99999-999" oninput="formatarCep(this)"/>
+            <input id="cep" type="text" placeholder="99999-999" oninput="validarCep(this)" onchange="estadoBotao()"/>
             <span class="campo-obrigatorio">Digite um cep válido</span>
           </div>
         </div>
         <div class="grupo-botoes">
-          <button id="btnCadastrar" type="submit">Cadastrar</button>
+          <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
           <button id="btnLimpar" type="button">Limpar formulário</button>
         </div>
       </form>
