@@ -25,7 +25,20 @@ formulario.addEventListener('submit', (e) => {
     validarEstado();
     validarCep();
 
-    console.log(formulario.value);
+    const Data = {
+        nome: inputNome.value,
+        email: inputEmail.value,
+        telefone: inputTelefone.value,
+        rua: inputRua.value,
+        numeroResidencia: inputNumeroResidencia.value,
+        complemento: inputComplemento.value,
+        cidade: inputCidade.value,
+        estado: inputEstado.value,
+        cep: inputCep.value
+    };
+
+    console.log(JSON.stringify(Data, null, 2));
+
 })
 
 function setError(index){
@@ -54,7 +67,9 @@ function validarEmail(){
 }
 
 function formatarTelefone(input) {
-    const inputValue = input.value.replace(/\D/g, '');
+    let inputValue = input.value.replace(/\D/g, '');
+
+    inputValue = inputValue.slice(0, 11);
 
     if (inputValue.length <= 10) {
         input.value = inputValue.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
@@ -69,8 +84,7 @@ inputTelefone.addEventListener("input", function() {
 });
 
 function validarTelefone() {
-    const inputTelefone = document.getElementById("telefone");
-    const inputValue = inputTelefone.value.replace(/\D/g, '');
+   const inputValue = inputTelefone.value.replace(/\D/g, '');
 
     if (inputValue.length < 11) {
         setError(2);
@@ -114,12 +128,35 @@ function validarEstado(){
     removerError(7);
 }
 }
-function validarCep(){
-    if (inputCep.value.length < 8 ){
-        setError(8);
-    }else{
-    removerError(8);
+function formatarCep(input) {
+    let inputValue = input.value.replace(/\D/g, '');
+    inputValue = inputValue.slice(0, 8);
+
+    input.value = inputValue.replace(/(\d{5})(\d{0,3})/, '$1-$2');
 }
+
+inputCep.addEventListener("input", function() {
+    formatarCep(this);
+    validarCep();
+});
+
+function validarCep() {
+
+    const inputValue = inputCep.value.replace(/\D/g, '');
+
+    if (inputValue.length < 8) {
+        setError(8);
+    } else {
+        removerError(8);
+    }
+}
+
+const btnLimpar = document.getElementById("btnLimpar");
+btnLimpar.addEventListener("click", limparFormulario);
+
+function limparFormulario() {
+    formulario.reset();
+    //document.getElementById('btnCadastrar').disabled = true;
 }
 
 

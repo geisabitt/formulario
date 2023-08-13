@@ -51,13 +51,13 @@ button {
   cursor: pointer;
   transition: 1s;
 }
-button:hover {
-  background-color: #646470;
-  border: solid 3px #2695db;
-  border-radius: 10px;
-}
 
 .campo-obrigatorio{
   display: none;
   color: #8b0000;
+}
+button:disabled{
+  background-color: #646470;
+  border: solid 3px #646470;
+
 }
