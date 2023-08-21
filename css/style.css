@@ -31,16 +31,14 @@ form {
   padding: 10px;
   margin-bottom: 20px;
 }
-input,
-select {
+input, select {
   width: 70%;
   background-color: #4b4b53;
   border: 0 none;
   border-radius: 3px;
   padding: 8px;
 }
-input:focus,
-select:focus {
+input:focus, select:focus {
   border: 0 none;
   box-shadow: 0 0 0 0;
   outline: 0;
@@ -54,22 +52,20 @@ button {
   transition: 1s;
 }
 
-.campo-obrigatorio {
+.campo-obrigatorio{
   display: none;
   color: #8b0000;
 }
-button:disabled {
+button:disabled{
   background-color: #646470;
   border: solid 3px #646470;
+
 }
 
-.error {
+.error{
   border: solid 3px #8b0000;
 }
-.span-error {
+.span-error{
   display: block;
   color: #8b0000;
-}
-.success {
-  border: solid 3px #008b13;
 }

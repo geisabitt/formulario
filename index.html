@@ -3,58 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/scripts.js" defer></script>
     <title>Formulário</title>
   </head>
   <body>
     <section>
       <h2 class="titulo">Formulário</h2>
-      <form action="">
+      <form id="formulario">
         <div class="grupo-campo">
-          <label for="">Nome:</label>
-          <input type="text" placeholder="Seu nome aqui..." />
+          <label>Nome:</label>
+          <input id="nome" type="text" placeholder="Seu nome aqui..." />
+          <span class="campo-obrigatorio"
+            >O nome deve ter no mínimo 3 caracteres.</span
+          >
         </div>
         <div class="grupo-campo">
-          <label for="">E-mail:</label>
-          <input type="text" placeholder="exemplo@email.com" />
+          <label>E-mail:</label>
+          <input id="email" type="text" placeholder="exemplo@email.com" />
+          <span class="campo-obrigatorio">Digite um email válido.</span>
         </div>
         <div class="grupo-campo">
-          <label for="">Telefone:</label>
-          <input type="number" placeholder="(21)99999-9999" />
+          <label>Telefone:</label>
+          <input id="telefone" type="text" placeholder="(21)99999-9999" />
+          <span class="campo-obrigatorio">Digite um telefone válido</span>
         </div>
         <div id="endereco">
           <h3>Endereço</h3>
           <div class="grupo-campo">
-            <label for="">Rua:</label>
-            <input type="text" placeholder="Nome da rua..." />
+            <label>Rua:</label>
+            <input id="rua" type="text" placeholder="Nome da rua..." />
+            <span class="campo-obrigatorio">Digite o nome da rua</span>
           </div>
           <div class="grupo-campo">
-            <label for="">Numero:</label>
-            <input type="number" placeholder="Numero da residencia..." />
-          </div>
-          <div class="grupo-campo">
-            <label for="">Complemento:</label>
+            <label>Numero:</label>
             <input
+              id="numeroResidencia"
+              type="number"
+              placeholder="Numero da residencia..."
+            />
+            <span class="campo-obrigatorio">Digite o numero d residência</span>
+          </div>
+          <div class="grupo-campo">
+            <label>Complemento:</label>
+            <input
+              id="complemento"
               type="text"
               placeholder="Lote, quadra ou ponto de referencia..."
             />
+            <span class="campo-obrigatorio"
+              >Digite um complemento ou ponto de referência</span
+            >
           </div>
           <div class="grupo-campo">
-            <label for="">Cidade:</label>
-            <input type="text" placeholder="Digite a cidade..." />
+            <label>Cidade:</label>
+            <input id="cidade" type="text" placeholder="Digite a cidade..." />
+            <span class="campo-obrigatorio">Digite seu bairro / cidade</span>
           </div>
           <div class="grupo-campo">
-            <label for="">Estado:</label>
-            <input type="text" placeholder="Digite o estado..." />
+            <label>Estado:</label>
+            <select id="estado" name="estados">
+              <option value="">Selecione um estado</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+            <span class="campo-obrigatorio">Escolha um estado</span>
           </div>
           <div class="grupo-campo">
-            <label for="">CEP:</label>
-            <input type="number" placeholder="99999-999" />
+            <label>CEP:</label>
+            <input id="cep" type="text" placeholder="99999-999" />
+            <span class="campo-obrigatorio">Digite um cep válido</span>
           </div>
         </div>
         <div class="grupo-botoes">
-          <button type="button">Cadastrar</button>
-          <button type="button">Limpar formulário</button>
+          <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
+          <button id="btnLimpar" type="button">Limpar formulário</button>
         </div>
       </form>
     </section>
