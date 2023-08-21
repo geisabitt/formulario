@@ -12,10 +12,11 @@ body {
   text-align: center;
   font-size: 32px;
 }
-form {
+form,
+.card {
   max-width: 500px;
   width: 90%;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 30px 50px;
   background-color: #646470;
   border-radius: 10px;
@@ -62,6 +63,10 @@ button:disabled {
   background-color: #646470;
   border: solid 3px #646470;
 }
+input:disabled,
+select:disabled {
+  color: #2695db;
+}
 
 .error {
   border: solid 3px #8b0000;
@@ -72,4 +77,10 @@ button:disabled {
 }
 .success {
   border: solid 3px #008b13;
+}
+.cardUsuario {
+  border: solid 10px #008b13;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
 }

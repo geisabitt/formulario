@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/scripts.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/scripts.js" defer></script>
     <title>Formulário</title>
   </head>
   <body>
@@ -31,10 +31,17 @@
           <input id="telefone" type="text" placeholder="(21)99999-9999" />
           <span class="campo-obrigatorio">Digite um telefone válido</span>
         </div>
+        
         <div id="endereco">
           <h3>Endereço</h3>
           <div class="grupo-campo">
+          <label>CEP:</label>
+          <input id="cep" type="text" placeholder="99999-999" />
+          <span class="campo-obrigatorio">Digite um cep válido</span>
+        </div>
+          <div class="grupo-campo">
             <label>Rua:</label>
+            <!--input street-->
             <input id="rua" type="text" placeholder="Nome da rua..." />
             <span class="campo-obrigatorio">Digite o nome da rua</span>
           </div>
@@ -53,7 +60,6 @@
               id="complemento"
               type="text"
               placeholder="Lote, quadra ou ponto de referencia..."
-              oninput="validarComplemento(this)" onchange="estadoBotao()"
             />
             <span class="campo-obrigatorio"
               >Digite um complemento ou ponto de referência</span
@@ -61,11 +67,19 @@
           </div>
           <div class="grupo-campo">
             <label>Cidade:</label>
+            <!--input city-->
             <input id="cidade" type="text" placeholder="Digite a cidade..." />
-            <span class="campo-obrigatorio">Digite seu bairro / cidade</span>
+            <span class="campo-obrigatorio">Digite sua cidade</span>
+          </div>
+          <div class="grupo-campo">
+            <label>Bairro:</label>
+            <!--input neighborhood-->
+            <input id="bairro" type="text" placeholder="Digite o bairro..." />
+            <span class="campo-obrigatorio">Digite seu bairro</span>
           </div>
           <div class="grupo-campo">
             <label>Estado:</label>
+            <!--input state-->
             <select id="estado" name="estados">
               <option value="">Selecione um estado</option>
               <option value="AC">Acre</option>
@@ -98,19 +112,17 @@
             </select>
             <span class="campo-obrigatorio">Escolha um estado</span>
           </div>
-          <div class="grupo-campo">
-            <label>CEP:</label>
-            <input id="cep" type="text" placeholder="99999-999" />
-            <span class="campo-obrigatorio">Digite um cep válido</span>
-          </div>
+          
         </div>
         <div class="grupo-botoes">
           <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
           <button id="btnLimpar" type="button">Limpar formulário</button>
-          <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
-          <button id="btnLimpar" type="button">Limpar formulário</button>
         </div>
       </form>
+    </section>
+    <section class="card">
+      <span id="storageVazio">Nenhum usuario cadastrado</span>
+      <div id="cardUsuario"></div>
     </section>
   </body>
 </html>

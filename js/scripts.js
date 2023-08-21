@@ -1,4 +1,4 @@
-const form = document.getElementById("formulario");
+const formulario = document.getElementById("formulario");
 const inputNome = document.getElementById("nome");
 const inputEmail = document.getElementById("email");
 const inputTelefone = document.getElementById("telefone");
@@ -6,6 +6,7 @@ const inputRua = document.getElementById("rua");
 const inputNumeroResidencia = document.getElementById("numeroResidencia");
 const inputComplemento = document.getElementById("complemento");
 const inputCidade = document.getElementById("cidade");
+const inputBairro = document.getElementById("bairro");
 const inputEstado = document.getElementById("estado");
 const inputCep = document.getElementById("cep");
 const btnCadastrar = document.getElementById("btnCadastrar");
@@ -18,22 +19,7 @@ function validateAndUpdate(inputElement, isValid) {
   mensagemErro.classList.toggle("span-error", !isValid);
   inputElement.classList.toggle("error", !isValid);
 
-  const inputs = [
-    inputNome,
-    inputEmail,
-    inputTelefone,
-    inputRua,
-    inputNumeroResidencia,
-    inputComplemento,
-    inputCidade,
-    inputEstado,
-    inputCep,
-  ];
-  const allInputsValid = inputs.every(
-    (input) => input.value.trim() !== "" && !input.classList.contains("error")
-  );
-
-  btnCadastrar.disabled = !allInputsValid;
+  estadoBtnCadastrar();
 }
 
 inputNome.addEventListener("input", () => {
@@ -87,11 +73,15 @@ inputCidade.addEventListener("input", () => {
   validateAndUpdate(inputCidade, inputCidade.value.trim() !== "");
 });
 
+inputBairro.addEventListener("input", () => {
+  validateAndUpdate(inputBairro, inputBairro.value.trim() !== "");
+});
+
 inputEstado.addEventListener("input", () => {
   validateAndUpdate(inputEstado, inputEstado.value.trim() !== "");
 });
 
-inputCep.addEventListener("input", () => {
+inputCep.addEventListener("input", async () => {
   let inputValue = inputCep.value.replace(/\D/g, "");
 
   inputValue = inputValue.slice(0, 8);
@@ -103,36 +93,188 @@ inputCep.addEventListener("input", () => {
   if (cepValido) {
     const formattedValue = inputValue.replace(/^(\d{5})(\d{3})$/, "$1-$2");
     inputCep.value = formattedValue;
+
+    try {
+      var response = await fetch(
+        `https://brasilapi.com.br/api/CEP/v1/${inputValue}`
+      );
+
+      if (response.status === 404) {
+        validateAndUpdate(inputCep, (inputCep.value = ""));
+        return;
+      }
+
+      var result = await response.json();
+      if (result) {
+        inputRua.value = result.street || "";
+        inputCidade.value = result.city || "";
+        inputBairro.value = result.neighborhood || "";
+        inputEstado.value = result.state || "";
+
+        inputCep.disabled = true;
+        inputRua.disabled = true;
+        inputCidade.disabled = true;
+        inputBairro.disabled = true;
+        inputEstado.disabled = true;
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   }
 
   validateAndUpdate(inputCep, inputCep.value.length > 8);
 });
 
+const inputs = [
+  inputNome,
+  inputEmail,
+  inputTelefone,
+  inputRua,
+  inputNumeroResidencia,
+  inputComplemento,
+  inputCidade,
+  inputBairro,
+  inputEstado,
+  inputCep,
+];
+
 function estadoBtnCadastrar() {
-  const inputs = [
-    inputNome,
-    inputEmail,
-    inputTelefone,
-    inputRua,
-    inputNumeroResidencia,
-    inputComplemento,
-    inputCidade,
-    inputEstado,
-    inputCep,
-  ];
   const allInputsValid = inputs.every(
     (input) => input.value.trim() !== "" && !input.classList.contains("error")
   );
 
   btnCadastrar.disabled = !allInputsValid;
 }
+function habilitarInputs() {
+  inputs.forEach((input) => {
+    input.disabled = false;
+  });
+}
 
-inputNome.addEventListener("input", estadoBtnCadastrar);
-inputEmail.addEventListener("input", estadoBtnCadastrar);
-inputTelefone.addEventListener("input", estadoBtnCadastrar);
-inputRua.addEventListener("input", estadoBtnCadastrar);
-inputNumeroResidencia.addEventListener("input", estadoBtnCadastrar);
-inputComplemento.addEventListener("input", estadoBtnCadastrar);
-inputCidade.addEventListener("input", estadoBtnCadastrar);
-inputEstado.addEventListener("input", estadoBtnCadastrar);
-inputCep.addEventListener("input", estadoBtnCadastrar);
+let idUsuario = 1;
+
+function mensagen(msgSistema) {
+  if (msgSistema !== "") {
+    Swal.fire(msgSistema).then(() => {
+      formulario.reset();
+      habilitarInputs();
+      estadoBtnCadastrar();
+      location.reload();
+    });
+  }
+}
+
+formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const Data = {
+    nome: inputNome.value,
+    email: inputEmail.value,
+    telefone: inputTelefone.value,
+    rua: inputRua.value,
+    numeroResidencia: inputNumeroResidencia.value,
+    complemento: inputComplemento.value,
+    bairro: inputBairro.value,
+    cidade: inputCidade.value,
+    estado: inputEstado.value,
+    cep: inputCep.value,
+  };
+
+  const jsonData = JSON.stringify(Data);
+  const storageKey = `id_${idUsuario}`;
+  idUsuario++;
+  localStorage.setItem(storageKey, jsonData);
+  mensagen("Usuario cadastrado com sucesso!");
+});
+const btnLimpar = document.getElementById("btnLimpar");
+
+btnLimpar.addEventListener("click", limparFormulario);
+
+function limparFormulario() {
+  formulario.reset();
+  habilitarInputs();
+}
+
+function inicializarIdUsuario() {
+  for (let i = 1; ; i++) {
+    const storageKey = `id_${i}`;
+    if (!localStorage.getItem(storageKey)) {
+      idUsuario = i;
+      break;
+    }
+  }
+}
+
+window.addEventListener("load", () => {
+  inicializarIdUsuario();
+  exibirLocalStoredData();
+});
+
+function criarCard(data) {
+  const card = document.createElement("div");
+  card.classList.add("cardUsuario");
+
+  const cardNome = document.createElement("h2");
+  cardNome.textContent = data.nome;
+
+  const cardEmail = document.createElement("p");
+  cardEmail.textContent = `Email: ${data.email}`;
+
+  const cardTelefone = document.createElement("p");
+  cardTelefone.textContent = `Telefone: ${data.telefone}`;
+
+  const cardRua = document.createElement("p");
+  cardRua.textContent = `Rua: ${data.rua}`;
+
+  const cardNumeroResidencia = document.createElement("p");
+  cardNumeroResidencia.textContent = `Número: ${data.numeroResidencia}`;
+
+  const cardComplemento = document.createElement("p");
+  cardComplemento.textContent = `complemento: ${data.complemento}`;
+
+  const cardCidade = document.createElement("p");
+  cardCidade.textContent = `Cidade: ${data.cidade}`;
+
+  const cardBairro = document.createElement("p");
+  cardBairro.textContent = `Bairro: ${data.bairro}`;
+
+  const cardEstado = document.createElement("p");
+  cardEstado.textContent = `Estado: ${data.estado}`;
+
+  const cardCep = document.createElement("p");
+  cardCep.textContent = `CEP: ${data.cep}`;
+
+  card.appendChild(cardNome);
+  card.appendChild(cardEmail);
+  card.appendChild(cardTelefone);
+  card.appendChild(cardRua);
+  card.appendChild(cardNumeroResidencia);
+  card.appendChild(cardComplemento);
+  card.appendChild(cardCidade);
+  card.appendChild(cardBairro);
+  card.appendChild(cardEstado);
+  card.appendChild(cardCep);
+
+  return card;
+}
+
+function exibirLocalStoredData() {
+  const container = document.getElementById("cardUsuario");
+
+  for (let i = 1; i <= idUsuario; i++) {
+    const storageKey = `id_${i}`;
+    const jsonData = localStorage.getItem(storageKey);
+
+    if (jsonData) {
+      const userData = JSON.parse(jsonData);
+      const card = criarCard(userData);
+      container.appendChild(card);
+    }
+  }
+}
+const storageVazio = document.getElementById("storageVazio");
+if (localStorage.length === 0) {
+  storageVazio.style.display = "block";
+} else {
+  storageVazio.style.display = "none";
+}
