@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/scripts.js" defer></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/scripts.js" defer></script>
     <title>Formulário</title>
   </head>
   <body>
     <section>
       <h2 class="titulo">Formulário</h2>
+      <form id="formulario">
       <form id="formulario">
         <div class="grupo-campo">
           <label>Nome:</label>
@@ -50,6 +53,7 @@
               id="complemento"
               type="text"
               placeholder="Lote, quadra ou ponto de referencia..."
+              oninput="validarComplemento(this)" onchange="estadoBotao()"
             />
             <span class="campo-obrigatorio"
               >Digite um complemento ou ponto de referência</span
@@ -101,6 +105,8 @@
           </div>
         </div>
         <div class="grupo-botoes">
+          <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
+          <button id="btnLimpar" type="button">Limpar formulário</button>
           <button disabled id="btnCadastrar" type="submit">Cadastrar</button>
           <button id="btnLimpar" type="button">Limpar formulário</button>
         </div>
