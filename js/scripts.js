@@ -184,6 +184,9 @@ formulario.addEventListener("submit", (e) => {
   idUsuario++;
   localStorage.setItem(storageKey, jsonData);
   mensagen("Usuario cadastrado com sucesso!");
+  setTimeout(function () {
+    location.reload();
+  }, 1000);
 });
 const btnLimpar = document.getElementById("btnLimpar");
 
@@ -191,7 +194,6 @@ btnLimpar.addEventListener("click", limparFormulario);
 
 function limparFormulario() {
   formulario.reset();
-  classeSuccess.classList.remove();
 }
 
 function inicializarIdUsuario() {
