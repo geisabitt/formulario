@@ -3,7 +3,6 @@ const inputNome = document.getElementById("nome");
 const inputEmail = document.getElementById("email");
 const inputTelefone = document.getElementById("telefone");
 const inputRua = document.getElementById("rua");
-const inputNumeroResidencia = document.getElementById("numeroResidencia");
 const inputComplemento = document.getElementById("complemento");
 const inputCidade = document.getElementById("cidade");
 const inputBairro = document.getElementById("bairro");
@@ -20,6 +19,7 @@ function validateAndUpdate(inputElement, isValid) {
   campoGrupo.classList.toggle("divError", !isValid);
   mensagemErro.classList.toggle("span-error", !isValid);
   inputElement.classList.toggle("error", !isValid);
+  campoGrupo.classList.toggle("success", isValid);
 
   estadoBtnCadastrar();
 }
@@ -58,13 +58,6 @@ inputTelefone.addEventListener("input", () => {
 
 inputRua.addEventListener("input", () => {
   validateAndUpdate(inputRua, inputRua.value.length > 3);
-});
-
-inputNumeroResidencia.addEventListener("input", () => {
-  validateAndUpdate(
-    inputNumeroResidencia,
-    inputNumeroResidencia.value.trim() !== ""
-  );
 });
 
 inputComplemento.addEventListener("input", () => {
@@ -132,7 +125,6 @@ const inputs = [
   inputEmail,
   inputTelefone,
   inputRua,
-  inputNumeroResidencia,
   inputComplemento,
   inputCidade,
   inputBairro,
@@ -171,7 +163,6 @@ formulario.addEventListener("submit", (e) => {
     email: inputEmail.value,
     telefone: inputTelefone.value,
     rua: inputRua.value,
-    numeroResidencia: inputNumeroResidencia.value,
     complemento: inputComplemento.value,
     bairro: inputBairro.value,
     cidade: inputCidade.value,
@@ -216,7 +207,6 @@ const dataFields = [
   { label: "Email", key: "email" },
   { label: "Telefone", key: "telefone" },
   { label: "Rua", key: "rua" },
-  { label: "Número", key: "numeroResidencia" },
   { label: "Complemento", key: "complemento" },
   { label: "Cidade", key: "cidade" },
   { label: "Bairro", key: "bairro" },
