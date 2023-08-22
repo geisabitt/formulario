@@ -10,12 +10,14 @@ const inputBairro = document.getElementById("bairro");
 const inputEstado = document.getElementById("estado");
 const inputCep = document.getElementById("cep");
 const btnCadastrar = document.getElementById("btnCadastrar");
+const errorApiSpan = document.querySelector(".error-api");
+const classeSuccess = document.querySelectorAll(".success");
 
 function validateAndUpdate(inputElement, isValid) {
   const campoGrupo = inputElement.parentElement;
   const mensagemErro = campoGrupo.querySelector(".campo-obrigatorio");
 
-  campoGrupo.classList.toggle("error", !isValid);
+  campoGrupo.classList.toggle("divError", !isValid);
   mensagemErro.classList.toggle("span-error", !isValid);
   inputElement.classList.toggle("error", !isValid);
 
@@ -83,7 +85,6 @@ inputEstado.addEventListener("input", () => {
 
 inputCep.addEventListener("input", async () => {
   let inputValue = inputCep.value.replace(/\D/g, "");
-
   inputValue = inputValue.slice(0, 8);
 
   inputCep.value = inputValue;
@@ -95,16 +96,19 @@ inputCep.addEventListener("input", async () => {
     inputCep.value = formattedValue;
 
     try {
-      var response = await fetch(
+      const response = await fetch(
         `https://brasilapi.com.br/api/CEP/v1/${inputValue}`
       );
 
       if (response.status === 404) {
-        validateAndUpdate(inputCep, (inputCep.value = ""));
+        errorApiSpan.style.display = "block";
+        validateAndUpdate(inputCep);
         return;
+      } else {
+        errorApiSpan.style.display = "none";
       }
 
-      var result = await response.json();
+      const result = await response.json();
       if (result) {
         inputRua.value = result.street || "";
         inputCidade.value = result.city || "";
@@ -112,14 +116,12 @@ inputCep.addEventListener("input", async () => {
         inputEstado.value = result.state || "";
 
         inputCep.disabled = true;
-        inputRua.disabled = true;
-        inputCidade.disabled = true;
-        inputBairro.disabled = true;
-        inputEstado.disabled = true;
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
     }
+  } else {
+    errorApiSpan.style.display = "none";
   }
 
   validateAndUpdate(inputCep, inputCep.value.length > 8);
@@ -145,22 +147,19 @@ function estadoBtnCadastrar() {
 
   btnCadastrar.disabled = !allInputsValid;
 }
-function habilitarInputs() {
-  inputs.forEach((input) => {
-    input.disabled = false;
-  });
-}
 
 let idUsuario = 1;
 
 function mensagen(msgSistema) {
   if (msgSistema !== "") {
-    Swal.fire(msgSistema).then(() => {
-      formulario.reset();
-      habilitarInputs();
-      estadoBtnCadastrar();
-      location.reload();
+    Swal.fire({
+      icon: "success",
+      title: msgSistema,
+      showConfirmButton: false,
+      timer: 1500,
     });
+    limparFormulario();
+    estadoBtnCadastrar();
   }
 }
 
@@ -192,7 +191,7 @@ btnLimpar.addEventListener("click", limparFormulario);
 
 function limparFormulario() {
   formulario.reset();
-  habilitarInputs();
+  classeSuccess.classList.remove();
 }
 
 function inicializarIdUsuario() {
@@ -207,69 +206,44 @@ function inicializarIdUsuario() {
 
 window.addEventListener("load", () => {
   inicializarIdUsuario();
-  exibirLocalStoredData();
+  exibirUltimoLocalStoredData();
 });
+
+const dataFields = [
+  { label: "Nome", key: "nome" },
+  { label: "Email", key: "email" },
+  { label: "Telefone", key: "telefone" },
+  { label: "Rua", key: "rua" },
+  { label: "Número", key: "numeroResidencia" },
+  { label: "Complemento", key: "complemento" },
+  { label: "Cidade", key: "cidade" },
+  { label: "Bairro", key: "bairro" },
+  { label: "Estado", key: "estado" },
+  { label: "CEP", key: "cep" },
+];
 
 function criarCard(data) {
   const card = document.createElement("div");
   card.classList.add("cardUsuario");
 
-  const cardNome = document.createElement("h2");
-  cardNome.textContent = data.nome;
-
-  const cardEmail = document.createElement("p");
-  cardEmail.textContent = `Email: ${data.email}`;
-
-  const cardTelefone = document.createElement("p");
-  cardTelefone.textContent = `Telefone: ${data.telefone}`;
-
-  const cardRua = document.createElement("p");
-  cardRua.textContent = `Rua: ${data.rua}`;
-
-  const cardNumeroResidencia = document.createElement("p");
-  cardNumeroResidencia.textContent = `Número: ${data.numeroResidencia}`;
-
-  const cardComplemento = document.createElement("p");
-  cardComplemento.textContent = `complemento: ${data.complemento}`;
-
-  const cardCidade = document.createElement("p");
-  cardCidade.textContent = `Cidade: ${data.cidade}`;
-
-  const cardBairro = document.createElement("p");
-  cardBairro.textContent = `Bairro: ${data.bairro}`;
-
-  const cardEstado = document.createElement("p");
-  cardEstado.textContent = `Estado: ${data.estado}`;
-
-  const cardCep = document.createElement("p");
-  cardCep.textContent = `CEP: ${data.cep}`;
-
-  card.appendChild(cardNome);
-  card.appendChild(cardEmail);
-  card.appendChild(cardTelefone);
-  card.appendChild(cardRua);
-  card.appendChild(cardNumeroResidencia);
-  card.appendChild(cardComplemento);
-  card.appendChild(cardCidade);
-  card.appendChild(cardBairro);
-  card.appendChild(cardEstado);
-  card.appendChild(cardCep);
+  dataFields.forEach((field) => {
+    const fieldElement = document.createElement("p");
+    fieldElement.textContent = `${field.label}: ${data[field.key]}`;
+    card.appendChild(fieldElement);
+  });
 
   return card;
 }
-
-function exibirLocalStoredData() {
+function exibirUltimoLocalStoredData() {
   const container = document.getElementById("cardUsuario");
 
-  for (let i = 1; i <= idUsuario; i++) {
-    const storageKey = `id_${i}`;
-    const jsonData = localStorage.getItem(storageKey);
+  const storageKey = `id_${idUsuario - 1}`;
+  const jsonData = localStorage.getItem(storageKey);
 
-    if (jsonData) {
-      const userData = JSON.parse(jsonData);
-      const card = criarCard(userData);
-      container.appendChild(card);
-    }
+  if (jsonData) {
+    const userData = JSON.parse(jsonData);
+    const card = criarCard(userData);
+    container.appendChild(card);
   }
 }
 const storageVazio = document.getElementById("storageVazio");

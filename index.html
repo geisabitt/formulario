@@ -13,7 +13,6 @@
     <section>
       <h2 class="titulo">Formulário</h2>
       <form id="formulario">
-      <form id="formulario">
         <div class="grupo-campo">
           <label>Nome:</label>
           <input id="nome" type="text" placeholder="Seu nome aqui..." />
@@ -31,18 +30,19 @@
           <input id="telefone" type="text" placeholder="(21)99999-9999" />
           <span class="campo-obrigatorio">Digite um telefone válido</span>
         </div>
-        
+
         <div id="endereco">
           <h3>Endereço</h3>
           <div class="grupo-campo">
-          <label>CEP:</label>
-          <input id="cep" type="text" placeholder="99999-999" />
-          <span class="campo-obrigatorio">Digite um cep válido</span>
-        </div>
+            <label>CEP:</label>
+            <input id="cep" type="text" placeholder="99999-999" />
+            <span class="campo-obrigatorio">Digite um cep válido</span>
+            <span class="error-api">CEP não encontrado</span>
+          </div>
           <div class="grupo-campo">
             <label>Rua:</label>
             <!--input street-->
-            <input id="rua" type="text" placeholder="Nome da rua..." />
+            <input disabled id="rua" type="text" placeholder="Nome da rua..." />
             <span class="campo-obrigatorio">Digite o nome da rua</span>
           </div>
           <div class="grupo-campo">
@@ -68,19 +68,29 @@
           <div class="grupo-campo">
             <label>Cidade:</label>
             <!--input city-->
-            <input id="cidade" type="text" placeholder="Digite a cidade..." />
+            <input
+              disabled
+              id="cidade"
+              type="text"
+              placeholder="Digite a cidade..."
+            />
             <span class="campo-obrigatorio">Digite sua cidade</span>
           </div>
           <div class="grupo-campo">
             <label>Bairro:</label>
             <!--input neighborhood-->
-            <input id="bairro" type="text" placeholder="Digite o bairro..." />
+            <input
+              disabled
+              id="bairro"
+              type="text"
+              placeholder="Digite o bairro..."
+            />
             <span class="campo-obrigatorio">Digite seu bairro</span>
           </div>
           <div class="grupo-campo">
             <label>Estado:</label>
             <!--input state-->
-            <select id="estado" name="estados">
+            <select disabled id="estado" name="estados">
               <option value="">Selecione um estado</option>
               <option value="AC">Acre</option>
               <option value="AL">Alagoas</option>
@@ -112,7 +122,6 @@
             </select>
             <span class="campo-obrigatorio">Escolha um estado</span>
           </div>
-          
         </div>
         <div class="grupo-botoes">
           <button disabled id="btnCadastrar" type="submit">Cadastrar</button>

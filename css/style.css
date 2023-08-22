@@ -59,6 +59,11 @@ button {
   display: none;
   color: #8b0000;
 }
+.error-api {
+  display: none;
+  width: 80%;
+  color: #8b0000;
+}
 button:disabled {
   background-color: #646470;
   border: solid 3px #646470;
@@ -68,7 +73,7 @@ select:disabled {
   color: #2695db;
 }
 
-.error {
+.divError {
   border: solid 3px #8b0000;
 }
 .span-error {
@@ -77,10 +82,4 @@ select:disabled {
 }
 .success {
   border: solid 3px #008b13;
-}
-.cardUsuario {
-  border: solid 10px #008b13;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  padding: 10px;
 }
