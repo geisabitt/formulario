@@ -160,7 +160,7 @@ function mensagen(msgSistema) {
 formulario.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const Data = {
+  const data = {
     nome: inputNome.value,
     email: inputEmail.value,
     telefone: inputTelefone.value,
@@ -172,7 +172,7 @@ formulario.addEventListener("submit", (e) => {
     cep: inputCep.value,
   };
 
-  const jsonData = JSON.stringify(Data);
+  const jsonData = JSON.stringify(data);
   const storageKey = `id_${idUsuario}`;
   idUsuario++;
   localStorage.setItem(storageKey, jsonData);
@@ -187,16 +187,6 @@ btnLimpar.addEventListener("click", limparFormulario);
 
 function limparFormulario() {
   formulario.reset();
-}
-
-function inicializarIdUsuario() {
-  for (let i = 1; ; i++) {
-    const storageKey = `id_${i}`;
-    if (!localStorage.getItem(storageKey)) {
-      idUsuario = i;
-      break;
-    }
-  }
 }
 
 window.addEventListener("load", () => {
