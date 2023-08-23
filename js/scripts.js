@@ -93,9 +93,9 @@ inputCep.addEventListener("input", async () => {
         `https://brasilapi.com.br/api/CEP/v1/${inputValue}`
       );
 
-      if (response.status === 404) {
+      if (!response.ok) {
         errorApiSpan.style.display = "block";
-        validateAndUpdate(inputCep);
+        validateAndUpdate(inputCep, false);
         return;
       } else {
         errorApiSpan.style.display = "none";
@@ -109,6 +109,8 @@ inputCep.addEventListener("input", async () => {
         inputEstado.value = result.state || "";
 
         inputCep.disabled = true;
+
+        validateAndUpdate(inputCep, true);
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -117,7 +119,7 @@ inputCep.addEventListener("input", async () => {
     errorApiSpan.style.display = "none";
   }
 
-  validateAndUpdate(inputCep, inputCep.value.length > 8);
+  validateAndUpdate(inputCep, inputCep.value.length >= 8);
 });
 
 const inputs = [
