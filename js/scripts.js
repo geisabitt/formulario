@@ -218,6 +218,17 @@ function criarCard(data) {
 
   return card;
 }
+//encontrar usuarios
+function inicializarIdUsuario() {
+  for (let i = 1; ; i++) {
+    const storageKey = `id_${i}`;
+    if (!localStorage.getItem(storageKey)) {
+      idUsuario = i;
+      break;
+    }
+  }
+}
+//exibir último usuario
 function exibirUltimoLocalStoredData() {
   const container = document.getElementById("cardUsuario");
 
