@@ -172,10 +172,7 @@ formulario.addEventListener("submit", (e) => {
     cep: inputCep.value,
   };
 
-  const jsonData = JSON.stringify(data);
-  const storageKey = `id_${idUsuario}`;
-  idUsuario++;
-  localStorage.setItem(storageKey, jsonData);
+  localStorage.setItem("storageKey", JSON.stringify(data));
   mensagen("Usuario cadastrado com sucesso!");
   setTimeout(function () {
     location.reload();
@@ -190,8 +187,7 @@ function limparFormulario() {
 }
 
 window.addEventListener("load", () => {
-  inicializarIdUsuario();
-  exibirUltimoLocalStoredData();
+  exibirLocalStoredData();
 });
 
 const dataFields = [
@@ -218,22 +214,11 @@ function criarCard(data) {
 
   return card;
 }
-//encontrar usuarios
-function inicializarIdUsuario() {
-  for (let i = 1; ; i++) {
-    const storageKey = `id_${i}`;
-    if (!localStorage.getItem(storageKey)) {
-      idUsuario = i;
-      break;
-    }
-  }
-}
-//exibir último usuario
-function exibirUltimoLocalStoredData() {
+
+function exibirLocalStoredData() {
   const container = document.getElementById("cardUsuario");
 
-  const storageKey = `id_${idUsuario - 1}`;
-  const jsonData = localStorage.getItem(storageKey);
+  const jsonData = localStorage.getItem("storageKey");
 
   if (jsonData) {
     const userData = JSON.parse(jsonData);
@@ -241,6 +226,7 @@ function exibirUltimoLocalStoredData() {
     container.appendChild(card);
   }
 }
+
 const storageVazio = document.getElementById("storageVazio");
 if (localStorage.length === 0) {
   storageVazio.style.display = "block";
